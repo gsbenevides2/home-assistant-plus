@@ -71,7 +71,26 @@ export const TwitchController = new Elysia({
 		async ({ status, params: { streamerId } }) => {
 			try {
 				const streamerStatus = await Twitch.getStreamerStatus(streamerId);
-				return status(StatusMap["OK"], streamerStatus);
+				return status(StatusMap["OK"], {
+					status: streamerStatus.status,
+					attributes: {
+						title: streamerStatus.attributes.title || null,
+						friendly_name: streamerStatus.attributes.friendly_name || "",
+						game: streamerStatus.attributes.game || null,
+						started_at: streamerStatus.attributes.started_at || null,
+						viewers: streamerStatus.attributes.viewers || null,
+						followers: streamerStatus.attributes.followers || null,
+						subscribed: streamerStatus.attributes.subscribed || null,
+						subscription_is_gifted:
+							streamerStatus.attributes.subscription_is_gifted || null,
+						subscription_tier:
+							streamerStatus.attributes.subscription_tier || null,
+						following: streamerStatus.attributes.following || null,
+						following_since: streamerStatus.attributes.following_since || null,
+						entity_picture: streamerStatus.attributes.entity_picture || null,
+						options: streamerStatus.attributes.options || null,
+					},
+				});
 			} catch (_) {
 				return status(StatusMap["Not Found"], {
 					error: "Streamer not found",
@@ -106,11 +125,16 @@ export const TwitchController = new Elysia({
 									description: "Streamer is not currently live",
 									examples: ["offline"],
 								}),
+								t.Literal("unavailable", {
+									title: "Unavailable",
+									description: "The data of this streamer is unavailable",
+									examples: ["unavailable"],
+								}),
 							],
 							{
 								title: "Streaming Status",
 								description: "Current streaming status",
-								examples: ["streaming", "offline"],
+								examples: ["streaming", "offline", "unavailable"],
 							},
 						),
 						attributes: t.Object({

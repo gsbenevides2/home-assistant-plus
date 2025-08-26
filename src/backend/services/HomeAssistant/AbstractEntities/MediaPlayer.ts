@@ -8,6 +8,7 @@ export enum MediaPlayerStates {
 	IDLE = "idle",
 	STANDBY = "standby",
 	BUFFERING = "buffering",
+	UNAVAILABLE = "unavailable",
 }
 
 export interface MediaPlayerAttributes extends EntityAttributes {

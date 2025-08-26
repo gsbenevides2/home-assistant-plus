@@ -124,7 +124,6 @@ export const SpotifyController = new Elysia({
 								MediaPlayerStates.ON,
 								MediaPlayerStates.IDLE,
 								MediaPlayerStates.STANDBY,
-								MediaPlayerStates.BUFFERING,
 							],
 						}),
 						musicTitle: t.String({
