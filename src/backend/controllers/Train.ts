@@ -261,8 +261,8 @@ export const TrainController = new Elysia({
 		"/",
 		async ({ body, status }) => {
 			const lines = TrainSensorInstance.getInstance().getAvailableLines().codes;
-			const hasAllLines = lines.every((line) =>
-				body.find((b) => b.codigo === line),
+			const hasAllLines = body.every((line) =>
+				lines.find((l) => l === line.codigo),
 			);
 			if (!hasAllLines) {
 				return status(StatusMap["Not Found"], {
