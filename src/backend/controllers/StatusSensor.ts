@@ -17,6 +17,94 @@ export const StatusSensorController = new Elysia({
 	},
 })
 	.get(
+		"/",
+		async ({ status }) => {
+			const data = await StatusSensorInstance.getInstance().getAllEntities();
+			return status(StatusMap["OK"], data);
+		},
+		{
+			detail: {
+				summary: "Get all status sensor names",
+				description: "Get the names of all platform sensors",
+			},
+			response: {
+				[StatusMap["OK"]]: t.Array(
+					t.String({
+						title: "Sensor Name",
+						description: "The name of the status sensor",
+						examples: ["GitHub", "Discord", "Vercel"],
+					}),
+					{
+						title: "Status Sensors Array",
+						description: "Array of status sensor names",
+						examples: [["GitHub", "Discord", "Vercel"]],
+					},
+				),
+			},
+		},
+	)
+	.get(
+		"/all",
+		async ({ status }) => {
+			const data = await StatusSensorInstance.getInstance().getAllStatusData();
+			return status(StatusMap["OK"], data);
+		},
+		{
+			detail: {
+				summary: "Get all status sensor data",
+				description: "Get the status data for all platform sensors",
+			},
+			response: {
+				[StatusMap["OK"]]: t.Array(
+					t.Object({
+						name: t.String({
+							title: "Sensor Name",
+							description: "The name of the status sensor",
+						}),
+						status_url: t.String({
+							title: "Status URL",
+							description: "The URL to check the platform status",
+						}),
+						problem_description: t.Optional(
+							t.String({
+								title: "Problem Description",
+								description: "Description of any current problems",
+							}),
+						),
+						hasProblem: t.Boolean({
+							title: "Has Problem",
+							description: "Whether the platform currently has problems",
+						}),
+					}),
+					{
+						title: "Status Sensors Array",
+						description: "Array of status sensor data",
+						examples: [
+							{
+								name: "GitHub",
+								status_url: "https://www.githubstatus.com/",
+								problem_description: undefined,
+								hasProblem: false,
+							},
+							{
+								name: "Discord",
+								status_url: "https://discordstatus.com/",
+								problem_description: undefined,
+								hasProblem: false,
+							},
+							{
+								name: "Vercel",
+								status_url: "https://status.vercel.com/",
+								problem_description: undefined,
+								hasProblem: false,
+							},
+						],
+					},
+				),
+			},
+		},
+	)
+	.get(
 		"/:name",
 		async ({ params, status }) => {
 			const { name } = params;

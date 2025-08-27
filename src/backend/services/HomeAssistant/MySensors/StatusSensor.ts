@@ -2,6 +2,7 @@ import {
 	BinarySensor,
 	type BinarySensorAttributes,
 } from "../AbstractEntities/BinarySensor";
+import { Entity } from "../AbstractEntities/Entity";
 
 interface StatusSensorAttributes extends BinarySensorAttributes {
 	status_url: string;
@@ -17,14 +18,39 @@ export interface StatusSensorData {
 
 export class StatusSensor extends BinarySensor<StatusSensorAttributes> {
 	constructor(name: string, attributes: StatusSensorAttributes) {
-		const normalizedName = StatusSensor.nameNormalize(name);
-		const entityId = `binary_sensor.status_plataform_${normalizedName}`;
-		const entityName = entityId.replace("binary_sensor.", "");
-		super(entityId, entityName, attributes);
+		const entityId = StatusSensor.nameToEntityId(name);
+		super(entityId, entityId, attributes);
+	}
+
+	private static entityIdStartsWith = "binary_sensor.status_plataform_";
+
+	private static nameToEntityId(name: string) {
+		return `${StatusSensor.entityIdStartsWith}${StatusSensor.nameNormalize(name)}`;
+	}
+
+	private static entityIdToName(entityId: string) {
+		return StatusSensor.nameUnnormalize(
+			entityId.replace(StatusSensor.entityIdStartsWith, ""),
+		);
 	}
 
 	private static nameNormalize(name: string) {
 		return name.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+	}
+
+	private static nameUnnormalize(name: string) {
+		return name
+			.replace(/_/g, " ")
+			.replace(/\b\w/g, (char) => char.toUpperCase());
+	}
+
+	static async getAllStatusEntities(): Promise<string[]> {
+		const entities = await Entity.getAllEntities();
+		return entities
+			.filter((entity) =>
+				entity.entity_id.startsWith(StatusSensor.entityIdStartsWith),
+			)
+			.map((entity) => StatusSensor.entityIdToName(entity.entity_id));
 	}
 }
 
@@ -56,5 +82,14 @@ export class StatusSensorInstance {
 			problem_description: data.attributes.problem_description,
 			hasProblem: data.state === "on",
 		};
+	}
+
+	public async getAllStatusData(): Promise<StatusSensorData[]> {
+		const names = await StatusSensor.getAllStatusEntities();
+		return Promise.all(names.map((name) => this.getData(name)));
+	}
+
+	public async getAllEntities(): Promise<string[]> {
+		return await StatusSensor.getAllStatusEntities();
 	}
 }
