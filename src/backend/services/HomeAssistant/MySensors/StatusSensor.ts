@@ -1,6 +1,7 @@
 import {
 	BinarySensor,
 	type BinarySensorAttributes,
+	BinarySensorDeviceClass,
 } from "../AbstractEntities/BinarySensor";
 import { Entity } from "../AbstractEntities/Entity";
 
@@ -19,7 +20,10 @@ export interface StatusSensorData {
 export class StatusSensor extends BinarySensor<StatusSensorAttributes> {
 	constructor(name: string, attributes: StatusSensorAttributes) {
 		const entityId = StatusSensor.nameToEntityId(name);
-		super(entityId, entityId, attributes);
+		super(entityId, entityId, {
+			...attributes,
+			device_class: BinarySensorDeviceClass.PROBLEM,
+		});
 	}
 
 	private static entityIdStartsWith = "binary_sensor.status_plataform_";
