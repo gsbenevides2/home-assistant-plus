@@ -17,8 +17,8 @@ export const Camera: CameraType = {
 	motionDetectionsAreas: ["frente"] as const,
 	motionDetectionSensor: {
 		frente: new BinarySensor(
-			"binary_sensor.frente_motion_alarm",
-			"binary_sensor.frente_motion_alarm",
+			"binary_sensor.nvt_cell_motion_detection",
+			"binary_sensor.nvt_cell_motion_detection",
 			{
 				device_class: BinarySensorDeviceClass.MOTION,
 				friendly_name: "Frente Motion Alarm",
