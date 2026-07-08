@@ -1,10 +1,18 @@
 import { StatusMap } from "elysia";
 import { getEnv } from "../../utils/getEnv";
 
-const AUTH_SECRET = getEnv("AUTH_SECRET");
+const AUTH_SECRET = getEnv("AUTH_SECRET", false, "");
+const IS_AUTH_ENABLED = AUTH_SECRET !== "";
 
 export class AuthService {
+	static isEnabled() {
+		return IS_AUTH_ENABLED;
+	}
+
 	static async verify(secret: string) {
+		if (!AuthService.isEnabled()) {
+			return true;
+		}
 		return secret === AUTH_SECRET;
 	}
 }

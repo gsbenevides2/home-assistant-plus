@@ -61,6 +61,11 @@ export const TrainController = new Elysia({
 							description: "The situation of the line",
 							example: "Velocidade Reduzida",
 						}),
+						cor: t.String({
+							title: "Color",
+							description: "The color of the line",
+							example: "Azul",
+						}),
 					}),
 
 					{
@@ -137,6 +142,11 @@ export const TrainController = new Elysia({
 							title: "Situation",
 							description: "The situation of the line",
 							example: "Velocidade Reduzida",
+						}),
+						cor: t.String({
+							title: "Color",
+							description: "The color of the line",
+							example: "Azul",
 						}),
 					},
 					{

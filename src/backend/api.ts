@@ -13,6 +13,9 @@ const api = new Elysia({
 	prefix: "/api",
 })
 	.onBeforeHandle(async ({ headers }) => {
+		if (!AuthService.isEnabled()) {
+			return;
+		}
 		const token = headers?.authorization;
 		if (!token) {
 			throw new UnauthorizedError();
