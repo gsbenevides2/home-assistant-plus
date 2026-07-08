@@ -1,5 +1,5 @@
-import { TurnOffPc } from "./MySensors/TurnOffPc";
+import { PCSensors } from "./MySensors/PC";
 
 export async function setupAllButtons() {
-	await TurnOffPc.getInstance().setupButton();
+	await PCSensors.setupButton();
 }

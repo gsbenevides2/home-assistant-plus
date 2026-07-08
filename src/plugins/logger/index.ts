@@ -59,7 +59,9 @@ export function logger() {
 			};
 			const timeDiff = Number(process.hrtime.bigint() - time) / 1000000;
 			let status = ctx.set.status;
-			if (ctx.error instanceof NotFoundError) {
+			const contextWithError = ctx as typeof ctx & { error?: unknown };
+			const error = contextWithError.error;
+			if (error instanceof NotFoundError) {
 				status = 404;
 			}
 
@@ -76,12 +78,17 @@ export function logger() {
 				if (response?.bodyUsed === false) {
 					const body = await response.text();
 					console.log(showInfo("Response:", JSON.stringify(body)));
-				} else if (checkIfToResponse(ctx.error)) {
-					const response = ctx.error.toResponse() as Response;
+				} else if (error && checkIfToResponse(error)) {
+					const response = error.toResponse() as Response;
 					const body = await response.text();
 					console.log(showInfo("Response:", JSON.stringify(body)));
-				} else if ("code" in ctx.error) {
-					console.log(showInfo("Response:", JSON.stringify(ctx.error.code)));
+				} else if (error && typeof error === "object" && "code" in error) {
+					console.log(
+						showInfo(
+							"Response:",
+							JSON.stringify((error as { code: unknown }).code),
+						),
+					);
 				}
 			}
 			if (status === 401) {
