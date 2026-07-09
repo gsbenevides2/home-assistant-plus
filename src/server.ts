@@ -3,6 +3,7 @@ import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import api from "./backend/api";
 import { coolifyHealthChecker } from "./plugins/coolify-healtcheker";
+import { favicons } from "./plugins/favicons";
 import { logger } from "./plugins/logger";
 import { getProjectInfo } from "./utils/getProjectInfo";
 import { sendServerReadyMessage } from "./utils/sendServerReadyMessage";
@@ -14,6 +15,7 @@ const port = Bun.env.PORT || 3000;
 const app = new Elysia()
 	.use(logger())
 	.use(cors())
+	.use(favicons())
 	.use(
 		swagger({
 			documentation: {

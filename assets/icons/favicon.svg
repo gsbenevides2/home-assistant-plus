@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="50%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="40" fill="#0f172a" />
+  <path d="M40 96 L100 36 L160 96" fill="url(#sky)" />
+  <path d="M56 96 H144 V160 H56 Z" fill="#0ea5e9" />
+  <rect x="84" y="122" width="32" height="38" rx="8" fill="#e0f2fe" />
+  <circle cx="72" cy="116" r="10" fill="#0f172a" />
+  <circle cx="128" cy="116" r="10" fill="#0f172a" />
+  <path d="M72 116 V92" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" />
+  <path d="M128 116 V92" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" />
+  <circle cx="100" cy="68" r="18" fill="#f8fafc" />
+  <path d="M100 52 V60" stroke="#0f172a" stroke-width="6" stroke-linecap="round" />
+  <path d="M100 76 V84" stroke="#0f172a" stroke-width="6" stroke-linecap="round" />
+  <path d="M92 68 H84" stroke="#0f172a" stroke-width="6" stroke-linecap="round" />
+  <path d="M116 68 H108" stroke="#0f172a" stroke-width="6" stroke-linecap="round" />
+</svg>
